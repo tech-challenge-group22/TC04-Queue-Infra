@@ -1,11 +1,11 @@
 # Deploy Terraform
 
-Arquivo para deploy de instancia Dynamo DB e Aplicação
+Terraform para deploy da infraestrutura AWS da aplicação
 
 # Instruções 
 
 Executar 
 
-terraform init
-terraform plan
-terraform apply
+- terraform init
+- terraform plan
+- terraform apply
