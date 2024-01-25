@@ -43,3 +43,18 @@ variable "access_key_aws" {
 variable "secret_aws" {
   description = "AWS session token"
 }
+
+variable "output_sqs_url" {
+  description = "SQS Payment response"
+}
+
+variable input_sqs_url {
+  description = "SQS url to receive events"
+}
+
+variable sqs_polling_interval {
+}
+
+variable sqs_message_group {
+}
+

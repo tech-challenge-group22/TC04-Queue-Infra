@@ -10,17 +10,17 @@ provider "aws" {
   profile = "lab"
 }
 
-terraform {
-  backend "s3" {
-    bucket         = "tfstate-tcfiap-queue"
-    key            = "terraform.tfstate"
-    region         = "us-east-1"
-  }
-}
+# terraform {
+#   backend "s3" {
+#     bucket         = "tfstate-tcfiap-queue"
+#     key            = "terraform.tfstate"
+#     region         = "us-east-1"
+#   }
+# }
 
 module "networking" {
   source               = "./modules/networking"
-  prefix          = "queue"
+  prefix               = "queue"
   vpc_cidr             = "10.0.0.0/16"
   public_subnets_cidr  = ["10.0.1.0/24", "10.0.2.0/24"]
   private_subnets_cidr = ["10.0.10.0/24", "10.0.20.0/24"]
@@ -31,6 +31,10 @@ module "networking" {
 
 module dynamo {
   source = "./modules/dynamo"
+}
+
+module sqs {
+  source = "./modules/sqs"
 }
 
 
@@ -45,10 +49,14 @@ module "ecs" {
   security_groups_ids = [
     module.networking.security_groups_ids
   ]
-  session_token_aws   = "${var.session_token_aws}"
-  access_key_aws      = "${var.access_key_aws}"
-  secret_aws          = "${var.secret_aws}"
-  execution_arn_role  = "${var.lab_role_arn}"
+  session_token_aws    = "${var.session_token_aws}"
+  access_key_aws       = "${var.access_key_aws}"
+  secret_aws           = "${var.secret_aws}"
+  execution_arn_role   = "${var.lab_role_arn}"
+  input_sqs_url        = "${module.sqs.input_sqs_url}"
+  output_sqs_url       = "${var.output_sqs_url}"
+  sqs_message_group    = "${var.sqs_message_group}"
+  sqs_polling_interval = "${var.sqs_polling_interval}"
   depends_on = [
     module.dynamo,
     module.networking

@@ -21,3 +21,12 @@ variable "access_key_aws" {
 variable "secret_aws" {
   description = "AWS session token"
 }
+
+variable "output_sqs_url" {
+}
+
+variable "sqs_message_group" {
+}
+
+variable "sqs_polling_interval" {
+}
