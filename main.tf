@@ -10,13 +10,13 @@ provider "aws" {
   profile = "lab"
 }
 
-# terraform {
-#   backend "s3" {
-#     bucket         = "tfstate-tcfiap-queue"
-#     key            = "terraform.tfstate"
-#     region         = "us-east-1"
-#   }
-# }
+terraform {
+  backend "s3" {
+    bucket         = "tfstate-tcfiap-queue"
+    key            = "terraform.tfstate"
+    region         = "us-east-1"
+  }
+}
 
 module "networking" {
   source               = "./modules/networking"
@@ -53,8 +53,8 @@ module "ecs" {
   access_key_aws       = "${var.access_key_aws}"
   secret_aws           = "${var.secret_aws}"
   execution_arn_role   = "${var.lab_role_arn}"
-  input_sqs_url        = "${module.sqs.input_sqs_url}"
-  output_sqs_url       = "${var.output_sqs_url}"
+  output_sqs_url       = "${module.sqs.output_sqs_url}"
+  input_sqs_url        = "${var.input_sqs_url}"
   sqs_message_group    = "${var.sqs_message_group}"
   sqs_polling_interval = "${var.sqs_polling_interval}"
   depends_on = [
