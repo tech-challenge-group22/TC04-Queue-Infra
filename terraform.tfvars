@@ -6,3 +6,4 @@ secret_aws           =
 input_sqs_url        = 
 sqs_message_group    = "TC"
 sqs_polling_interval = "5000"
+secret_key_jwt_token = 
