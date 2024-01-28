@@ -29,15 +29,19 @@ ECS task definitions
 ======*/
 
 resource "aws_ecs_task_definition" "web" {
-  family                   = "${var.prefix}_web"
+  family                 = "${var.prefix}_web"
   # "${file("${path.module}/tasks/web_task_definition.json"
-  container_definitions    = templatefile("${path.module}/tasks/web_task_definition.json", {
-    image           = "${aws_ecr_repository.queue_app.repository_url}"
-    log_group       = "${aws_cloudwatch_log_group.queue.name}"
-    aws_region = "us-east-1"
-    session_token_aws = "${var.session_token_aws}"
-    access_key_aws = "${var.access_key_aws}"
-    secret_aws = "${var.secret_aws}"
+  container_definitions  = templatefile("${path.module}/tasks/web_task_definition.json", {
+    image                = "${aws_ecr_repository.queue_app.repository_url}"
+    log_group            = "${aws_cloudwatch_log_group.queue.name}"
+    aws_region           = "us-east-1"
+    session_token_aws    = "${var.session_token_aws}"
+    access_key_aws       = "${var.access_key_aws}"
+    secret_aws           = "${var.secret_aws}"
+    output_sqs_url       = "${var.output_sqs_url}"
+    input_sqs_url        = "${var.input_sqs_url}"
+    sqs_polling_interval = "${var.sqs_polling_interval}"
+    sqs_message_group    = "${var.sqs_message_group}"
   })
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
